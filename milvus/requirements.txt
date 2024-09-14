@@ -1,0 +1,2 @@
+pymilvus == 2.4.6
+milvus-model == 0.2.5
