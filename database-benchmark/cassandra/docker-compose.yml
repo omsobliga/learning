@@ -1,0 +1,9 @@
+version: '3.5'
+
+services:
+
+  mongodb:
+    container_name: cassandra_dev
+    image: cassandra:latest
+    ports:
+      - "9042:9042"

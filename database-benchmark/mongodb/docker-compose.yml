@@ -1,0 +1,9 @@
+version: '3.5'
+
+services:
+
+  mongodb:
+    container_name: mongodb_dev
+    image: mongodb/mongodb-community-server:latest
+    ports:
+      - "27017:27017"
