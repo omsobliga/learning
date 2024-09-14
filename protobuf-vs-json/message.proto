@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+option go_package = "./genproto";
+
+message ProductVector {
+  int64 id = 1;
+  repeated double vector = 2;
+}
+
+message Vector {
+  repeated double vector = 1;
+}
