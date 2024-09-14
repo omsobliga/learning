@@ -1,12 +1,12 @@
 # benchmark
 
-测试环境
+environment
 
 ```
-系统 MacOS
-CPU 16 核
-内存 18G
-磁盘 SSD
+system MacOS
+CPU 16 core
+memory 18G
+disk SSD
 ```
 
 ## Mongodb
@@ -69,4 +69,23 @@ CPU 16 核
 0.38ms per insert 1 row
 0.39ms per query 1 row
 0.40ms per query 10 rows
+```
+
+## Milvus
+
+```
+10000 rows
+2.25ms per insert 1 row
+3.58ms per query 1 row
+5.04ms per query 10 rows
+
+100000 rows
+2.67ms per insert 1 row
+3.99ms per query 1 row
+6.17ms per query 10 rows
+
+100000 rows
+2.81ms per insert 1 row
+4.04ms per query 1 row
+8.99ms per query 10 rows
 ```
