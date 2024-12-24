@@ -1,43 +1,26 @@
-# 1. 遍历
-# 2. DP dp[i][j] = dp[i+1][j-1] if s[i] == s[j]
+# dp[i][j] = dp[i+1][j-1] + 2 if s[i]==s[j] and dp[i+1][j-1] > 0 else 0
+# dp[i][j] = 1 if i == j
+# dp[i][j] = 2 if s[i]=s[j] else 0
 
 
 def f(s):
-    n = len(s)
-    dp = [[0] * n for _ in range(n)]
-    max_length = 0
+    length = len(s)
+    dp = [[0 for _ in range(length)] for _ in range(length)]
     result = ""
-    for k in range(0, n):
-        for left in range(0, n):
-            right = left + k
-            if right >= n:
-                break
-
+    for k in range(length):
+        for i in range(length - k):
+            j = i + k
             if k == 0:
-                dp[left][right] = 1
-                if k + 1 > max_length:
-                    max_length = k + 1
-                    result = s[left: left + k + 1]
+                dp[i][j] = 1
             elif k == 1:
-                if s[left] == s[right]:
-                    dp[left][right] = 1
-                    if k + 1 > max_length:
-                        max_length = k + 1
-                        result = s[left: left + k + 1]
-                else:
-                    dp[left][right] = 0
+                if s[i] == s[j]:
+                    dp[i][j] = 2
             else:
-                if s[left] == s[right] and dp[left + 1][right - 1]:
-                    dp[left][right] = 1
-                    if k + 1 > max_length:
-                        max_length = k + 1
-                        result = s[left: left + k + 1]
-                else:
-                    dp[left][right] = 0
+                if s[i] == s[j] and dp[i+1][j-1] > 0:
+                    dp[i][j] = dp[i+1][j-1] + 2
+            print(k, i, j, dp[i][j])
+            if dp[i][j] > len(result):
+                result = s[i:j+1]
     return result
 
 
-print(f("aacabdkacaa"))
-# print(f("a"))
-# print(f("babad"))
-# print(f("cbbd"))

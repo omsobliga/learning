@@ -1,18 +1,19 @@
 
-def dfs(root):
-    if not root:
-        return 0, None
 
-    sum_ = root.val
-    left_sum, max_left_sum = dfs(root.left)
-    right_sum, max_right_sum = dfs(root.right)
+class T:
 
-    sum_ = max(sum_, sum_ + max(left_sum, right_sum))
+    result = None
 
-    max_sum = root.val + max(left_sum, 0) + max(right_sum, 0)
-    if max_left_sum is not None:
-        max_sum = max(max_left_sum, max_sum)
-    if max_right_sum is not None:
-        max_sum = max(max_right_sum, max_sum)
-    return sum_, max_sum
+    def max_path_sum(self, root):
+        if not root:
+            return 0
+        left = self.max_path_sum(root.left)
+        right = self.max_path_sum(root.right)
+
+        max_value = max(root.val + max(left, 0) + max(right, 0))
+        if self.result is None or self.result < max_value:
+            self.result = max_value
+
+        return max(root.val + max(left, 0), root.val + max(right, 0))
+
 

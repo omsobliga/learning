@@ -1,42 +1,26 @@
-def dfs(root, p, path, result):
-    if root is None:
+
+def dfs(node, p, path):
+    if not node:
         return
+    if node == p:
+        path.append(node)
+        return path[:]
 
-    path.append(root)
-
-    if root == p:
-        result.append(path[:])
-        # print([r.val for r in result[0]])
-        return
-
-    dfs(root.left, p, path, result)
-    dfs(root.right, p, path, result)
+    path.append(node)
+    res1 = dfs(node.left, p, path)
+    res2 = dfs(node.right, p, path)
     path.pop()
+    return res1 or res2
 
 
 def f(root, p, q):
-    path = []
-    result = []
-    dfs(root, p, path, result)
-    p_path = result[0]
-    # print([r.val for r in p_path])
-
-    path = []
-    result = []
-    dfs(root, q, path, result)
-    q_path = result[0]
-    # print([r.val for r in q_path])
-
-    i, j = 0, 0
-    common_parent = None
-    while i < len(p_path) and j < len(q_path):
-        p_node = p_path[i]
-        q_node = q_path[j]
-        # print(p_node.val, q_node.val)
-        if p_node == q_node:
-            common_parent = p_node
+    path_p = dfs(root, p, [])
+    path_q = dfs(root, q, [])
+    result = None
+    for i in range(min(len(path_p), len(path_q))):
+        if path_p[i] == path_q[i]:
+            result = path_p[i]
+            continue
         else:
             break
-        i += 1
-        j += 1
-    return common_parent
+    return result
