@@ -1,59 +1,85 @@
 import random
 
-def quick_sort(nums, left, right):
-    if left >= right:
-        return
-    start, end = left, right
 
-    # 进行二叉树平衡
-    point = random.randint(left, right)
-    target = nums[point]
-    nums[point], nums[right] = nums[right], nums[point]
-
-    # 优化相等情况
-    left_equal = True
-    right_equal = True
-
-    while left < right:
-        while left < right and nums[left] <= target:
-            if nums[left] != target and left_equal:
-                left_equal = False
-            left += 1
-
-        nums[right] = nums[left]
-
-        while left < right and nums[right] >= target:
-            if nums[right] != target and right_equal:
-                right_equal = False
-            right -= 1
-
-        nums[left] = nums[right]
-
-    nums[left] = target
-    if not left_equal:
-        quick_sort(nums, start, left - 1)
-    if not right_equal:
-        quick_sort(nums, left + 1, end)
-
-
-def quick_sort2(nums):
-    """ 内存会超 """
+# 快排，不限内存
+def quick_sort1(nums):
     if not nums:
         return []
-    target = nums[-1]
-    left = [n for n in nums if n < target]
-    right = [n for n in nums if n > target]
-    mid = [n for n in nums if n == target]
-    return quick_sort2(left) + mid + quick_sort2(right)
+    cur = nums[0]
+    left = [n for n in nums if n < cur]
+    equal = [n for n in nums if n == cur]
+    right = [n for n in nums if n > cur]
+    return quick_sort1(left) + equal + quick_sort1(right)
 
 
-def f(nums):
-    quick_sort(nums, 0, len(nums) - 1)
+print(quick_sort1([3, 2, 1]))
+
+
+# 快排，限内存
+def quick_sort2(nums, left, right):
+    if left < 0:
+        return
+    if right >= len(nums):
+        return
+    if right <= left:
+        return
+
+    i = random.randint(left, right)
+    nums[i], nums[right] = nums[right], nums[i]
+    cur = nums[right]
+
+    if all([n == cur for n in nums[left: right + 1]]):
+        return
+
+    origin_left = left
+    origin_right = right
+    while left < right:
+        while left < right and nums[left] <= cur:
+            left += 1
+
+        if left != right:
+            nums[left], nums[right] = nums[right], nums[left]
+
+        while left < right and nums[right] >= cur:
+            right -= 1
+
+        if left != right:
+            nums[left], nums[right] = nums[right], nums[left]
+
+    quick_sort2(nums, origin_left, left)
+    quick_sort2(nums, left + 1, origin_right)
+
+
+nums = [5,2,3,1]
+quick_sort2(nums, 0, len(nums) - 1)
+print(nums)
+
+
+# 归并排序，不限内存
+def merge_sort(nums):
+    if len(nums) <= 1:
+        return nums
+
+    mid = len(nums) // 2
+
+    left_nums = nums[:mid]
+    right_nums = nums[mid:]
+
+    left_nums = merge_sort(left_nums)
+    right_nums = merge_sort(right_nums)
+
+    nums = []
+    left_index = 0
+    right_index = 0
+    while left_index < len(left_nums) or right_index < len(right_nums):
+        if left_index < len(left_nums) and (right_index >= len(right_nums) or left_nums[left_index] <= right_nums[right_index]):
+            nums.append(left_nums[left_index])
+            left_index += 1
+        else:
+            nums.append(right_nums[right_index])
+            right_index += 1
     return nums
 
 
-print(f([-4,0,7,4,9,-5,-1,0,-7,-1]))
-print(f([5,2,3,1]))
-print(f([5, 2, 3, 1]))
-print(f([5,1,1,2,0,0]))
-print(f([-1,2,-8,-10]))
+print(merge_sort([3,2,1]))
+

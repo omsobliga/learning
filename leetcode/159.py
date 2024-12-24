@@ -1,21 +1,24 @@
+# heapq 是最小堆
+# heapq.heappush
+# heapq.heappop
+# pq[0]
 import heapq
 
-def f(nums, k):
-    if not nums or not k:
+
+def f(arr, k):
+    if k <= 0:
         return []
 
-    h = []
-    for i, n in enumerate(nums):
-        if i < k:
-            heapq.heappush(h, -1 * n)
-            continue
+    pq = []
+    for i in range(k):
+        heapq.heappush(pq, arr[i] * -1)
 
-        if h[0] < -1 * n:
-            heapq.heapreplace(h, -1 * n)
+    for i in range(k, len(arr)):
+        if arr[i] < pq[0] * -1:
+            heapq.heappop(pq)
+            heapq.heappush(pq, arr[i] * -1)
 
-    return [-1 * i for i in h]
+    return [i * -1 for i in pq]
 
 
-print(f([0,0,0,2,0,5], 0))
-# print(f([2, 5, 7, 4], 1))
-# print(f([0, 2, 3, 6], 2))
+print(f([1,3,5,7,2,4,6,8], 4))
