@@ -1,0 +1,6 @@
+# python3.13
+langchain-openai==0.3.7
+langchain==0.3.19
+langsmith==0.3.11
+langgraph==0.3.0
+notebook==7.3.2
